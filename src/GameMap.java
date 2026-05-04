@@ -3,6 +3,7 @@ public class GameMap {
     public int cols;
     public char[][] grid;       // Menyimpan letak dinding 'X', lava 'L', tujuan 'O', dan angka
     public int[][] costMatrix;  // Menyimpan cost untuk melewati setiap tile
+    public int totalAngka;
 
     // Menyimpan posisi awal (Z) dan tujuan (O) agar tidak perlu dilooping berulang kali
     public int startR, startC;

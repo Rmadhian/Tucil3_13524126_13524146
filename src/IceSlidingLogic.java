@@ -46,14 +46,14 @@ public class IceSlidingLogic {
                 int tileAngka = nextTile - '0';
                 
                 if (tileAngka == currentTarget) {
-                    // Angka sesuai urutan, update target selanjutnya[cite: 1]
+                    // Angka sesuai urutan, update target selanjutnya
                     currentTarget++; 
                 } else if (tileAngka > currentTarget) {
-                    // Menginjak angka yang lebih besar dari target saat ini = Game Over[cite: 1]
+                    // Menginjak angka yang lebih besar dari target saat ini = Game Over
                     return new StateNode(r, c, current.totalCost + stepCost, currentTarget, true, current.path + dirChar[dir]);
                 }
                 // Jika tileAngka < currentTarget, berarti sudah pernah dilewati.
-                // Dianggap sebagai tile normal (bisa ditembus)[cite: 1].
+                // Dianggap sebagai tile normal (bisa ditembus).
             }
             
             // Cek titik tujuan ('O') -> Catatan: aktor tetap meluncur melewati 'O'
