@@ -9,7 +9,7 @@ import utils.StateNode;
 public class BFS {
   public StateNode search(GameMap map) {
     Queue<StateNode> q = new LinkedList<>();
-    boolean[][][] visited = new boolean[map.rows][map.cols][10];
+    boolean[][][] visited = new boolean[map.rows][map.cols][map.totalAngka + 1];
 
     StateNode startNode = new StateNode(map.startR, map.startC, 0, 0, false, "");
     q.add(startNode);

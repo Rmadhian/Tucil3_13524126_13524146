@@ -8,7 +8,7 @@ import utils.StateNode;
 public class DFS {
   public StateNode search(GameMap map) {
     Stack<StateNode> stack = new Stack<>();
-    boolean[][][] visited = new boolean[map.rows][map.cols][10];
+    boolean[][][] visited = new boolean[map.rows][map.cols][map.totalAngka + 1];
 
     StateNode startNode = new StateNode(map.startR, map.startC, 0, 0, false, "");
     stack.push(startNode);
