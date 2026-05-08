@@ -43,6 +43,9 @@ public class MapParser {
                     } 
                     else if (Character.isDigit(tile)) {
                         int angka = tile - '0';
+                        map.waypointLocation[angka] = new int[2];
+                        map.waypointLocation[angka][0] = r;
+                        map.waypointLocation[angka][1] = c;
                         if (angka > maxAngka) {
                             maxAngka = angka; 
                         }
@@ -51,6 +54,12 @@ public class MapParser {
             }
 
             map.totalAngka = maxAngka + 1; 
+
+            for (int angka = 0; angka < map.totalAngka; angka++) {
+                if (map.waypointLocation[angka] == null) {
+                    throw new IllegalArgumentException("Urutan angka tidak lengkap: angka " + angka + " tidak ditemukan.");
+                }
+            }
 
             for (int r = 0; r < rows; r++) {
                 for (int c = 0; c < cols; c++) {

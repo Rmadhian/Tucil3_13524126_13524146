@@ -1,12 +1,12 @@
 package utils;
 
 public class StateNode implements Comparable<StateNode> {
-    public int r, c;
-    public int totalCost;
+    public int r, c; // [0-based]
+    public int totalCost; // g(n)
     public int targetAngka;
     public boolean isGameOver;
     public String path;
-    public int estimatedTotalCost; // Tambahan untuk A* dan perbandingan Priority Queue
+    public int estimatedTotalCost; // Tambahan untuk informed search (A* & GBFS) dan perbandingan Priority Queue
 
     public StateNode(int r, int c, int totalCost, int targetAngka, boolean isGameOver, String path) {
         this.r = r; 
@@ -18,7 +18,7 @@ public class StateNode implements Comparable<StateNode> {
         this.estimatedTotalCost = totalCost; // Secara default sama dengan g(n) untuk UCS
     }
 
-    // Wajib ada agar Priority Queue bisa mengurutkan dari cost terkecil
+    // Comparation For Priority Queue
     @Override
     public int compareTo(StateNode other) {
         return Integer.compare(this.estimatedTotalCost, other.estimatedTotalCost);
