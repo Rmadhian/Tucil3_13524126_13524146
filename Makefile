@@ -13,4 +13,4 @@ run: build
 	java -cp $(BIN_DIR) $(MAIN_CLASS)
 
 clean:
-	find $(BIN_DIR) -name "*.class" -delete
+	rm -rf $(BIN_DIR)
