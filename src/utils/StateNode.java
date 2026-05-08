@@ -1,3 +1,5 @@
+package utils;
+
 public class StateNode implements Comparable<StateNode> {
     public int r, c;
     public int totalCost;

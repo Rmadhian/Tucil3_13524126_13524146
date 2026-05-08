@@ -1,16 +1,20 @@
-import java.util.LinkedList;
-import java.util.Queue;
+package algorithm;
 
-public class BFS {
+import java.util.Stack;
+import utils.GameMap;
+import utils.IceSlidingLogic;
+import utils.StateNode;
+
+public class DFS {
   public StateNode search(GameMap map) {
-    Queue<StateNode> q = new LinkedList<>();
+    Stack<StateNode> stack = new Stack<>();
     boolean[][][] visited = new boolean[map.rows][map.cols][10];
 
     StateNode startNode = new StateNode(map.startR, map.startC, 0, 0, false, "");
-    q.add(startNode);
+    stack.push(startNode);
 
-    while (!q.isEmpty()) {
-      StateNode current = q.poll(); 
+    while (!stack.isEmpty()) {
+      StateNode current = stack.pop(); 
 
       if (visited[current.r][current.c][current.targetAngka]) {
         continue;
@@ -24,7 +28,7 @@ public class BFS {
       for (int i = 0; i < 4; i++) {
         StateNode nodeBaru = IceSlidingLogic.slideMove(map.grid, map.costMatrix, current, i);
         if (nodeBaru != null && !(nodeBaru.isGameOver)) {
-          q.add(nodeBaru);
+          stack.push(nodeBaru);
         }
       }
     }

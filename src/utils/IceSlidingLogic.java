@@ -1,3 +1,5 @@
+package utils;
+
 public class IceSlidingLogic {
     static final int[] dr = {-1, 0, 1, 0};
     static final int[] dc = {0, 1, 0, -1};

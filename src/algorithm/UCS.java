@@ -1,4 +1,9 @@
+package algorithm;
+
 import java.util.PriorityQueue;
+import utils.GameMap;
+import utils.IceSlidingLogic;
+import utils.StateNode;
 
 public class UCS {
   public StateNode search(GameMap map) {

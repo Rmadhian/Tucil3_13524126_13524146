@@ -1,3 +1,5 @@
+package utils;
+
 public class GameMap {
     public int rows;
     public int cols;
