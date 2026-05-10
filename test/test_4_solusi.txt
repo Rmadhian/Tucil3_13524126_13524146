@@ -1,0 +1,4 @@
+Sequence Gerakan: RDLD
+Cost dari Solusi: 59
+Waktu eksekusi: 6 ms
+Banyak iterasi yang ditinjau: 5 iterasi

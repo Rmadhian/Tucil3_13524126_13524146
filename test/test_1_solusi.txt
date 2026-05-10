@@ -1,0 +1,4 @@
+Sequence Gerakan: RD
+Cost dari Solusi: 9
+Waktu eksekusi: 4 ms
+Banyak iterasi yang ditinjau: 4 iterasi
