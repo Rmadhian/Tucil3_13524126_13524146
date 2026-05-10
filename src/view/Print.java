@@ -1,5 +1,8 @@
 package view;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 import utils.GameMap;
 import utils.IceSlidingLogic;
 import utils.StateNode;
@@ -23,8 +26,76 @@ public class Print {
         System.out.println("Legenda: Z = posisi aktor, . = lintasan slide pada langkah saat ini");
         System.out.println();
 
+        List<Frame> frames = buildFrames(node);
+        for (Frame frame : frames) {
+            printFrame(frame);
+        }
+    }
+
+    public void playbackSolusi(StateNode node, Scanner scanner) {
+        if (node == null) {
+            System.out.println("Tidak ada solusi yang bisa diplayback.");
+            return;
+        }
+
+        List<Frame> frames = buildFrames(node);
+        if (frames.isEmpty()) {
+            System.out.println("Tidak ada frame playback yang bisa ditampilkan.");
+            return;
+        }
+
+        int currentFrame = 0;
+        String message = "";
+
+        while (true) {
+            clearScreen();
+            System.out.println("===== PLAYBACK SOLUSI =====");
+            System.out.println("Frame " + currentFrame + " dari " + (frames.size() - 1));
+            System.out.println();
+            printFrame(frames.get(currentFrame));
+            System.out.println("Kontrol: [Enter/n/d] maju | [p/a] mundur | [j <step>] lompat | [q] keluar");
+            if (!message.isEmpty()) {
+                System.out.println(message);
+            }
+            System.out.print(">> ");
+
+            String command = scanner.nextLine().trim();
+
+            if (command.equalsIgnoreCase("q")) {
+                System.out.println("Playback selesai.");
+                return;
+            } else if (command.isEmpty() || command.equalsIgnoreCase("n") || command.equalsIgnoreCase("d")) {
+                if (currentFrame < frames.size() - 1) {
+                    currentFrame++;
+                    message = "";
+                } else {
+                    message = "Sudah berada di frame terakhir.";
+                }
+            } else if (command.equalsIgnoreCase("p") || command.equalsIgnoreCase("a")) {
+                if (currentFrame > 0) {
+                    currentFrame--;
+                    message = "";
+                } else {
+                    message = "Sudah berada di frame pertama.";
+                }
+            } else if (command.startsWith("j")) {
+                int targetFrame = parseJumpTarget(command);
+                if (targetFrame < 0 || targetFrame >= frames.size()) {
+                    message = "Step tidak valid. Masukkan angka 0 sampai " + (frames.size() - 1) + ".";
+                } else {
+                    currentFrame = targetFrame;
+                    message = "";
+                }
+            } else {
+                message = "Perintah tidak dikenal.";
+            }
+        }
+    }
+
+    private List<Frame> buildFrames(StateNode node) {
+        List<Frame> frames = new ArrayList<>();
         StateNode current = new StateNode(map.startR, map.startC, 0, 0, false, "");
-        printIteration(0, '-', current, null);
+        frames.add(new Frame(0, '-', current, null));
 
         for (int i = 0; i < node.path.length(); i++) {
             char move = node.path.charAt(i);
@@ -32,7 +103,7 @@ public class Print {
 
             if (dir == -1) {
                 System.out.println("Arah tidak dikenali pada path: " + move);
-                return;
+                return frames;
             }
 
             boolean[][] trace = getSlideTrace(current, dir);
@@ -40,20 +111,22 @@ public class Print {
 
             if (next == null) {
                 System.out.println("Path solusi tidak valid pada langkah ke-" + (i + 1) + ".");
-                return;
+                return frames;
             }
 
             current = next;
-            printIteration(i + 1, move, current, trace);
+            frames.add(new Frame(i + 1, move, current, trace));
         }
+
+        return frames;
     }
 
-    private void printIteration(int iteration, char move, StateNode node, boolean[][] trace) {
-        System.out.println("Iterasi " + iteration + formatMove(move));
-        System.out.println("Path sementara : " + (node.path.isEmpty() ? "-" : node.path));
-        System.out.println("Total cost     : " + node.totalCost);
-        System.out.println("Target berikut : " + formatNextTarget(node));
-        printBoard(node.r, node.c, trace);
+    private void printFrame(Frame frame) {
+        System.out.println("Step " + frame.iteration + formatMove(frame.move));
+        System.out.println("Path sementara : " + (frame.node.path.isEmpty() ? "-" : frame.node.path));
+        System.out.println("Total cost     : " + frame.node.totalCost);
+        System.out.println("Target berikut : " + formatNextTarget(frame.node));
+        printBoard(frame.node.r, frame.node.c, frame.trace);
         System.out.println();
     }
 
@@ -140,5 +213,38 @@ public class Print {
         }
 
         return String.valueOf(node.targetAngka);
+    }
+
+    private int parseJumpTarget(String command) {
+        String numberText = command.substring(1).trim();
+
+        if (numberText.isEmpty()) {
+            return -1;
+        }
+
+        try {
+            return Integer.parseInt(numberText);
+        } catch (NumberFormatException e) {
+            return -1;
+        }
+    }
+
+    private void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
+    private static class Frame {
+        int iteration;
+        char move;
+        StateNode node;
+        boolean[][] trace;
+
+        Frame(int iteration, char move, StateNode node, boolean[][] trace) {
+            this.iteration = iteration;
+            this.move = move;
+            this.node = node;
+            this.trace = trace;
+        }
     }
 }

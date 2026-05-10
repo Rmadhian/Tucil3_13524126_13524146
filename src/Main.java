@@ -87,7 +87,18 @@ public class Main {
             System.out.println("[1] Solusi Yang Ditemukan: " + solusi.path);
             System.out.println("[2] Cost dari Solusi: " + solusi.totalCost);
             System.out.println("[3] Waktu eksekusi: " + waktuEksekusi + " ms\n");
-            new Print(map).printSolusi(solusi);
+            Print printer = new Print(map);
+            printer.printSolusi(solusi);
+
+            String playback = getLine("Apakah Anda ingin melakukan playback? (Ya/Tidak): ");
+            if (playback.equalsIgnoreCase("Ya") || playback.equalsIgnoreCase("Y")) {
+                printer.playbackSolusi(solusi, SCANNER);
+            }
+            System.out.println("\n[!] File Save akan disimpan di folder yang sama dengan input file");
+            String saveor = getLine("Apakah Anda ingin menyimpan solusi? (Ya/Tidak): ");
+            if (saveor.equalsIgnoreCase("Ya") || saveor.equalsIgnoreCase("Y")) {
+                // Function to Save
+            }
         } else {
             System.out.println(">> TIDAK ADA SOLUSI <<");
             System.out.println("Aktor tidak bisa mencapai ke titik tujuan 'O' di map ini.");
