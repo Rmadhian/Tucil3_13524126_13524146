@@ -7,7 +7,10 @@ import utils.IceSlidingLogic;
 import utils.StateNode;
 
 public class BFS {
+  private int iterationCount;
+
   public StateNode search(GameMap map) {
+    iterationCount = 0;
     Queue<StateNode> q = new LinkedList<>();
     boolean[][][] visited = new boolean[map.rows][map.cols][map.totalAngka + 1];
 
@@ -20,6 +23,8 @@ public class BFS {
       if (visited[current.r][current.c][current.targetAngka]) {
         continue;
       }
+
+      iterationCount++;
       visited[current.r][current.c][current.targetAngka] = true;
 
       if (current.r == map.goalR && current.c == map.goalC && current.targetAngka == map.totalAngka) {
@@ -34,5 +39,9 @@ public class BFS {
       }
     }
     return null;
+  }
+
+  public int getIterationCount() {
+    return iterationCount;
   }
 }

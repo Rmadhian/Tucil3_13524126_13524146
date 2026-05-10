@@ -6,7 +6,10 @@ import utils.IceSlidingLogic;
 import utils.StateNode;
 
 public class DFS {
+  private int iterationCount;
+
   public StateNode search(GameMap map) {
+    iterationCount = 0;
     Stack<StateNode> stack = new Stack<>();
     boolean[][][] visited = new boolean[map.rows][map.cols][map.totalAngka + 1];
 
@@ -19,6 +22,8 @@ public class DFS {
       if (visited[current.r][current.c][current.targetAngka]) {
         continue;
       }
+
+      iterationCount++;
       visited[current.r][current.c][current.targetAngka] = true;
 
       if (current.r == map.goalR && current.c == map.goalC && current.targetAngka == map.totalAngka) {
@@ -33,5 +38,9 @@ public class DFS {
       }
     }
     return null;
+  }
+
+  public int getIterationCount() {
+    return iterationCount;
   }
 }

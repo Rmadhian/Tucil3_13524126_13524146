@@ -60,7 +60,4 @@ public class Heuristic{
         total += MD(r,c,game.goalR,game.goalC);
         return total;
     }
-
-    // [4] Fun Way
-
 }

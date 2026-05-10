@@ -6,7 +6,10 @@ import utils.IceSlidingLogic;
 import utils.StateNode;
 
 public class UCS {
+  private int iterationCount;
+
   public StateNode search(GameMap map) {
+    iterationCount = 0;
     PriorityQueue<StateNode> pq = new PriorityQueue<>();
     boolean[][][] visited = new boolean[map.rows][map.cols][map.totalAngka + 1];
 
@@ -21,6 +24,7 @@ public class UCS {
         continue;
       }
 
+      iterationCount++;
       visited[current.r][current.c][current.targetAngka] = true;
 
       if (current.r == map.goalR && current.c == map.goalC && current.targetAngka == map.totalAngka) {
@@ -35,5 +39,9 @@ public class UCS {
       }
     }
     return null;
+  }
+
+  public int getIterationCount() {
+    return iterationCount;
   }
 }

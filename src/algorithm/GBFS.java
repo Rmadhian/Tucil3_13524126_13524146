@@ -6,7 +6,10 @@ import utils.IceSlidingLogic;
 import utils.StateNode;
 
 public class GBFS{
+    private int iterationCount;
+
     public StateNode search(GameMap map, int optionHeuristic){
+        iterationCount = 0;
         Heuristic heuristic = new Heuristic(map);
         PriorityQueue<StateNode> pq = new PriorityQueue<>();
         boolean[][][] visited = new boolean[map.rows][map.cols][map.totalAngka + 1];
@@ -23,6 +26,7 @@ public class GBFS{
                 continue;
             }
 
+            iterationCount++;
             visited[current.r][current.c][current.targetAngka] = true;
 
             if (current.r == map.goalR && current.c == map.goalC && current.targetAngka == map.totalAngka) {
@@ -45,5 +49,9 @@ public class GBFS{
         // Tidak Ketemu Solusi
         return null;
             
+    }
+
+    public int getIterationCount() {
+        return iterationCount;
     }
 }

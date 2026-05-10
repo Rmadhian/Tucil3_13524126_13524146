@@ -6,6 +6,7 @@ import algorithm.UCS;
 import utils.GameMap;
 import utils.MapParser;
 import utils.StateNode;
+import utils.writeFile;
 import view.Print;
 
 public class Main {
@@ -53,26 +54,37 @@ public class Main {
         
         // 4. === ALGORITMA === 
         StateNode solusi;
+        int iterationCount;
         switch (algoritma) {
             case "1":
                 System.out.println("Mencari jalan pakai UCS...");
-                solusi = new UCS().search(map);
+                UCS ucs = new UCS();
+                solusi = ucs.search(map);
+                iterationCount = ucs.getIterationCount();
                 break;
             case "2":
                 System.out.println("Mencari jalan pakai GBFS...");
-                solusi = new GBFS().search(map, optionHeuristic);
+                GBFS gbfs = new GBFS();
+                solusi = gbfs.search(map, optionHeuristic);
+                iterationCount = gbfs.getIterationCount();
                 break;
             case "3":
                 System.out.println("Mencari jalan pakai A*...");
-                solusi = new Astar().search(map, optionHeuristic);
+                Astar astar = new Astar();
+                solusi = astar.search(map, optionHeuristic);
+                iterationCount = astar.getIterationCount();
                 break;
             case "4":
                 System.out.println("Mencari jalan pakai BFS...");
-                solusi = new BFS().search(map);
+                BFS bfs = new BFS();
+                solusi = bfs.search(map);
+                iterationCount = bfs.getIterationCount();
                 break;
             case "5":
                 System.out.println("Mencari jalan pakai DFS...");
-                solusi = new DFS().search(map);
+                DFS dfs = new DFS();
+                solusi = dfs.search(map);
+                iterationCount = dfs.getIterationCount();
                 break;
             default:
                 throw new IllegalArgumentException("Pilihan algoritma tidak valid: " + algoritma);
@@ -87,6 +99,7 @@ public class Main {
             System.out.println("[1] Solusi Yang Ditemukan: " + solusi.path);
             System.out.println("[2] Cost dari Solusi: " + solusi.totalCost);
             System.out.println("[3] Waktu eksekusi: " + waktuEksekusi + " ms\n");
+            System.out.println("[4] Banyak iterasi yang ditinjau: " + iterationCount + " iterasi\n");
             Print printer = new Print(map);
             printer.printSolusi(solusi);
 
@@ -97,7 +110,12 @@ public class Main {
             System.out.println("\n[!] File Save akan disimpan di folder yang sama dengan input file");
             String saveor = getLine("Apakah Anda ingin menyimpan solusi? (Ya/Tidak): ");
             if (saveor.equalsIgnoreCase("Ya") || saveor.equalsIgnoreCase("Y")) {
-                // Function to Save
+                String outputPath = writeFile.buildSolutionFilePath(FilePath);
+                String content = buildSolutionContent(solusi, waktuEksekusi, iterationCount);
+
+                if (writeFile.writeToFile(outputPath, content)) {
+                    System.out.println("Solusi disimpan pada " + outputPath);
+                }
             }
         } else {
             System.out.println(">> TIDAK ADA SOLUSI <<");
@@ -108,5 +126,16 @@ public class Main {
     private static String getLine(String prompt){
         System.out.print(">> " + prompt);
         return SCANNER.nextLine();
+    }
+
+    private static String buildSolutionContent(StateNode solusi, long waktuEksekusi, int iterationCount) {
+        StringBuilder content = new StringBuilder();
+
+        content.append("Sequence Gerakan: ").append(solusi.path).append(System.lineSeparator());
+        content.append("Cost dari Solusi: ").append(solusi.totalCost).append(System.lineSeparator());
+        content.append("Waktu eksekusi: ").append(waktuEksekusi).append(" ms").append(System.lineSeparator());
+        content.append("Banyak iterasi yang ditinjau: ").append(iterationCount).append(" iterasi").append(System.lineSeparator());
+
+        return content.toString();
     }
 }
