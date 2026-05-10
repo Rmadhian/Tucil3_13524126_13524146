@@ -14,6 +14,8 @@ public class Main {
 
     public static void main(String[] args) {
         // 1. Tentukan lokasi file test 
+        System.out.println("===== PROGRAM SOLVER ICE SLIDING PUZZLE =====");
+        System.err.println("[!] Path File yang dimasukkan berupa path secara lengkap (Cth: test/test.txt) [!]\n");
         String FilePath = getLine("Masukkan Path File anda: "); 
         System.out.println("Memulai program... \n Membaca file: " + FilePath);
 
