@@ -1,0 +1,4 @@
+Solusi Yang Ditemukan: RULUDRUR
+Cost dari Solusi: 87
+Waktu eksekusi: 4 ms
+Banyak iterasi yang ditinjau: 9 iterasi
